@@ -69,6 +69,7 @@ class FieldNavigator(Node):
             self.get_logger().info("🗺️ Starting Field Exploration (Perimeter Mapping)...")
             self.cancel_current_goal()
             self.waypoints = [
+                (1.0, 0.0, 0.0),     # Safe intermediate start
                 (7.5, 3.75, 0.0),    # Top Right
                 (-1.5, 3.75, 3.14),  # Top Left
                 (-1.5, -3.75, 3.14), # Bottom Left
