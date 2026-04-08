@@ -84,7 +84,7 @@ The robot is programmed to systematically inspect the field by traversing every 
 
 ## 🗺️ How to Use RViz & Start Navigation
 
-Because RViz is an engineering visualisation tool, **you will not see full 3D green crops in RViz**. Instead, you will see a top-down tactical layout. To actually see the 3D green crops, you must look at the **Gazebo 3D Simulation Window** that opens alongside RViz.
+Because RViz is an engineering visualisation tool, **you will not see full 3D green crops in RViz by default**. Instead, you will see a top-down tactical layout of black dots. To see the 3D green crops in RViz, follow the "Adding Crop Markers" step below.
 
 ### 🌟 TROUBLESHOOTING: Gazebo Crash / No Crops Visible
 If you run the launch file but **only RViz opens** (or you see an error like `[gzclient] process has died`), your Linux system is likely blocking Gazebo's display driver because of Wayland. 
@@ -96,20 +96,30 @@ ros2 launch solar_agri_bringup simulation.launch.py
 ```
 *This will successfully force the Gazebo window to appear so you can see the 3D crops!*
 
-### 1. Understanding the RViz Map
-- **Black Outlines**: These are the physical crop cylinders that your LiDAR laser is actively hitting in Gazebo.
-- **Inflated Halos**: Surrounding the black dots, you will see colored "buffers" (Costmaps). Nav2 uses this buffer to ensure the robot doesn't steer too close to a crop and dent its chassis.
+### 🛠️ 1. Adding 3D Crop Markers (Visualisation)
+To visualize the farm field as 3D cylinders in RViz:
+1. Look at the **`Displays`** panel on the left side of the RViz window.
+2. Click the **`Add`** button at the bottom of that panel.
+3. Search for or scroll to **`MarkerArray`** and click OK.
+4. A new `MarkerArray` item will appear in your display list. Expand it.
+5. Change the **`Topic`** field from empty to **`/crop_markers`**.
+6. *Presto!* The 3D green crops will now appear on your map, matching the Gazebo field.
 
-### 2. Step-by-Step Nav2 Goal (Dijkstra Path Plan)
+### 📍 2. Manual Navigation (Nav2 Goal)
 Once the SLAM map starts rendering black crop outlines:
 1. Look at the very top toolbar in the RViz window.
 2. Click the **`Nav2 Goal`** button (often has a green arrow icon).
 3. Move your mouse into the main map view. Click and hold down inside a clear path between crop rows, dragging your mouse slightly to dictate which direction the robot should face when it arrives.
 4. Release the mouse. 
-   - A red line **(Dijkstra trajectory)** will immediately be calculated around the crop obstacles.
+   - A red line **(Dijkstra trajectory)** will immediately be calculated.
    - The robot will begin physically driving down the row!
 
-> 💡 **Tip:** Try putting a `Nav2 Goal` down a completely different row. Watch as Dijkstra's algorithm safely navigates the headlands to enter the next row without hitting the crops.
+### 🏁 3. Multi-Waypoint Navigation
+If you want to plan a complex route:
+1. Find the **`Navigation 2`** panel (usually at the bottom left).
+2. Select **`Waypoint / Nav Through Poses Mode`** at the bottom of that panel.
+3. Use the **`Nav2 Goal`** button to click several locations in the field.
+4. Click **`Start Navigation`** in the Nav2 panel to begin the mission.
 
 ---
 
