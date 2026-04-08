@@ -72,12 +72,23 @@ ros2 launch solar_agri_bringup simulation.launch.py use_rviz:=false
 
 ---
 
-## 🤖 Autonomous Mission: "All Crops" Path
+## 🤖 Autonomous Field Mission: "All Crops" Path
 
 The robot is programmed to systematically inspect the field by traversing every gap between the rows.
-1. **Initialization**: The robot waits 20 seconds for SLAM and Nav2 to stabilize.
-2. **Mission**: It sweeps through Gap 1 (Row 0&1), then Gap 2, Gap 3, and Gap 4.
-3. **Completion**: Once all 4 gaps are traversed, the robot returns to its home station at `[-2.0, 0.0]`.
+
+1. **Launch the Mission**:
+   ```bash
+   ros2 launch solar_agri_bringup autonomous.launch.py
+   ```
+2. **Initialization (30s)**: The robot waits 30 seconds to allow the SLAM map to solidify and the Nav2 costmaps to initialize.
+3. **Manual Mission Control**: You can control the sequence via terminal:
+   - **Start Now**: `ros2 topic pub -1 /mission/command std_msgs/msg/String "data: start"`
+   - **Skip current waypoint**: `ros2 topic pub -1 /mission/command std_msgs/msg/String "data: skip"`
+   - **Reset Mission**: `ros2 topic pub -1 /mission/command std_msgs/msg/String "data: reset"`
+
+### Navigation Tips:
+- **Linear Driving**: The controller is tuned for straight driving (`curvature_feedback_gain: 2.0`) without "random" spinning by disabling unnecessary rotations in the rows.
+- **Auto-Recovery**: If a waypoint is aborted (stuck), the robot will automatically retry after 5 seconds.
 
 ---
 

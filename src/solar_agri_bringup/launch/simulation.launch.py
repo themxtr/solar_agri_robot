@@ -113,8 +113,8 @@ def generate_launch_description():
             executable='rviz2',
             name='rviz2',
             output='screen',
-            arguments=['-d', os.path.join(pkg_description, 'config', 'sim_display.rviz')],
-            parameters=[{'use_sim_time': use_sim_time}],
+            arguments=['-d', os.path.join(pkg_description, 'config', 'sim_display.rviz'), 
+                       '--ros-args', '-p', 'use_sim_time:=true'],
             condition=IfCondition(use_rviz)
         )
     ])
