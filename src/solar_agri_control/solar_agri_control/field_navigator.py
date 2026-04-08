@@ -33,8 +33,8 @@ class FieldNavigator(Node):
         self.current_wp_idx = 0
 
         # Wait a bit before starting to ensure Nav2 costmaps are loaded
-        self.get_logger().info("Field Navigator waiting 20s for SLAM mapping and Nav2...")
-        self.timer = self.create_timer(20.0, self.start_mission)
+        self.get_logger().info("Field Navigator waiting 30s for SLAM mapping and Nav2...")
+        self.timer = self.create_timer(30.0, self.start_mission)
 
     def start_mission(self):
         self.timer.cancel()
