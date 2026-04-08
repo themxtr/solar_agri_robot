@@ -33,6 +33,10 @@ class FieldNavigator(Node):
             (7.5, 0.75, 0.0),   # End of Gap 3
             (7.5, 2.25, 3.14),  # Shift to End of Gap 4
             (-1.5, 2.25, 3.14), # Start of Gap 4
+            (-1.5, 3.75, 0.0),  # Top Perimeter start
+            (7.5, 3.75, 0.0),   # Top Perimeter end
+            (7.5, -3.75, 3.14), # Bottom Perimeter end
+            (-1.5, -3.75, 3.14),# Bottom Perimeter start
             (-2.0, 0.0, 0.0)    # Return to station
         ]
         self.current_wp_idx = 0

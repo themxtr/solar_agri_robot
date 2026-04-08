@@ -146,6 +146,26 @@ If you want to manually direct the robot instead of using the autonomous script,
 
 ---
 
+## 🎯 Single Point Navigation (Custom Goals)
+
+If you want to send the robot to a **specific location** that is NOT part of the autonomous sweep:
+
+### Option A: Using RViz (Visual)
+1. Select the **`Nav2 Goal`** tool from the top toolbar.
+2. **Click** the exact spot on the map where you want the robot to go.
+3. **Hold and Drag** to set the direction the robot should face upon arrival.
+4. Release the mouse. The robot will plan a path through the crops to that exact point.
+
+### Option B: Using Terminal (Coordinate Precision)
+If you know the exact `(x, y)` coordinates (e.g., `x=5.0, y=1.0`), run this command:
+```bash
+ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: {header: {frame_id: 'map'}, pose: {position: {x: 5.0, y: 1.0, z: 0.0}, orientation: {w: 1.0}}}}"
+```
+
+---
+
+---
+
 ## 📁 Workspace Structure
 
 | Package / Folder | Description |
