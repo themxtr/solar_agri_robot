@@ -2,6 +2,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
@@ -18,6 +19,7 @@ def generate_launch_description():
     nav2_params_file = os.path.join(pkg_navigation, 'config', 'nav2_params.yaml')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
+    use_rviz = LaunchConfiguration('use_rviz', default='true')
 
     robot_description = ParameterValue(
         Command(['xacro ', urdf_file]),
@@ -26,6 +28,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='true'),
+        DeclareLaunchArgument('use_rviz', default_value='true', description='Start RViz2 if true'),
 
         # 1. Start Gazebo Server with the field world
         IncludeLaunchDescription(
@@ -99,12 +102,13 @@ def generate_launch_description():
             output='screen'
         ),
 
-        # 7. RViz visualization
+        # 7. RViz visualization (Conditional)
         Node(
             package='rviz2',
             executable='rviz2',
             name='rviz2',
             output='screen',
-            arguments=['-d', os.path.join(pkg_description, 'config', 'sim_display.rviz')]
+            arguments=['-d', os.path.join(pkg_description, 'config', 'sim_display.rviz')],
+            condition=IfCondition(use_rviz)
         )
     ])

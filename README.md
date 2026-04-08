@@ -44,10 +44,37 @@ ros2 launch solar_agri_bringup simulation.launch.py
 1. **Gazebo** opens showing a 3D farm field (`field.world`) populated with 5 rows of tall green crops, and the robot spawns at the centre.
 2. **RViz2** opens containing the visualization tools.
 3. The robot's LiDAR spins, generating `/scan` messages.
-4. **SLAM Toolbox** picks up the LiDAR scans and begins drawing a 2D map in RViz (seen as white passable space and black obstacles).
-5. **Nav2** initializes its Costmaps on top of the SLAM map so we can route the robot.
+4. **SLAM Toolbox** picks up the LiDAR scans and begins drawing a 2D map in RViz.
+5. **Nav2** initializes its Costmaps on top of the SLAM map.
+6. **Autonomous Field Navigator**: After a 20-second initialization window, the robot will automatically begin its mission to sweep through all 4 crop gaps.
 
 ---
+
+## 🛠️ New Launch Options
+
+### 1. Standalone RViz2
+If you want to restart RViz without restarting the entire simulation, or if you ran the simulation headlessly:
+```bash
+ros2 launch solar_agri_bringup rviz.launch.py
+```
+
+### 2. Running Simulation without RViz
+If you prefer to launch the simulation backend only (e.g., to use the standalone RViz launch later):
+```bash
+ros2 launch solar_agri_bringup simulation.launch.py use_rviz:=false
+```
+
+---
+
+## 🤖 Autonomous Mission: "All Crops" Path
+
+The robot is programmed to systematically inspect the field by traversing every gap between the rows.
+1. **Initialization**: The robot waits 20 seconds for SLAM and Nav2 to stabilize.
+2. **Mission**: It sweeps through Gap 1 (Row 0&1), then Gap 2, Gap 3, and Gap 4.
+3. **Completion**: Once all 4 gaps are traversed, the robot returns to its home station at `[-2.0, 0.0]`.
+
+---
+
 
 ## 🗺️ How to Use RViz & Start Navigation
 

@@ -17,16 +17,16 @@ class FieldNavigator(Node):
         super().__init__('field_navigator')
         self._action_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
 
-        # Define the zigzag path through the crop gaps
+        # Define the zigzag path through all 4 crop gaps
         # Gaps are at Y = -2.25, -0.75, 0.75, 2.25
         self.waypoints = [
-            (-1.5, -0.75, 0.0), # Enter Gap 2
-            (7.5, -0.75, 0.0),  # End of Gap 2
-            (7.5, -2.25, 3.14), # Shift up to End of Gap 1, face negative X
-            (-1.5, -2.25, 3.14),# Start of Gap 1
-            (-1.5, 0.75, 0.0),  # Jump across center to Start of Gap 3, face positive X
+            (-1.5, -2.25, 0.0), # Enter Gap 1 (between Row 0 & 1), face positive X
+            (7.5, -2.25, 0.0),  # End of Gap 1
+            (7.5, -0.75, 3.14), # Shift to End of Gap 2, face negative X
+            (-1.5, -0.75, 3.14),# Start of Gap 2
+            (-1.5, 0.75, 0.0),  # Shift across to Start of Gap 3, face positive X
             (7.5, 0.75, 0.0),   # End of Gap 3
-            (7.5, 2.25, 3.14),  # Shift up to End of Gap 4, face negative X
+            (7.5, 2.25, 3.14),  # Shift to End of Gap 4, face negative X
             (-1.5, 2.25, 3.14), # Start of Gap 4
             (-2.0, 0.0, 0.0)    # Return to station, face positive X
         ]
