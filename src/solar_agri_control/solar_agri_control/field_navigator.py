@@ -65,6 +65,18 @@ class FieldNavigator(Node):
             self.cancel_current_goal()
             self.current_wp_idx = 0
             self.create_transition_timer(2.0)
+        elif cmd == 'explore':
+            self.get_logger().info("🗺️ Starting Field Exploration (Perimeter Mapping)...")
+            self.cancel_current_goal()
+            self.waypoints = [
+                (7.5, 3.75, 0.0),    # Top Right
+                (-1.5, 3.75, 3.14),  # Top Left
+                (-1.5, -3.75, 3.14), # Bottom Left
+                (7.5, -3.75, 0.0),   # Bottom Right
+                (-2.0, 0.0, 0.0)     # Home
+            ]
+            self.current_wp_idx = 0
+            self.create_transition_timer(2.0)
 
     def cancel_current_goal(self):
         if self.goal_handle is not None:

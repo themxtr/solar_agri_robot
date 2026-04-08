@@ -72,23 +72,28 @@ ros2 launch solar_agri_bringup simulation.launch.py use_rviz:=false
 
 ---
 
-## 🤖 Autonomous Field Mission: "All Crops" Path
+### 🛠️ Mandatory Mapping Phase (Exploration)
+To ensure the robot is **constrained** by the map and doesn't plan into unknown space, you must first discover the field perimeter.
 
-The robot is programmed to systematically inspect the field by traversing every gap between the rows.
-
-1. **Launch the Mission**:
+1. **Launch**: `ros2 launch solar_agri_bringup simulation.launch.py`
+2. **Start Mapping Loop**: Send this command in a new terminal:
    ```bash
-   ros2 launch solar_agri_bringup autonomous.launch.py
+   ros2 topic pub -1 /mission/command std_msgs/msg/String "data: explore"
    ```
-2. **Initialization (30s)**: The robot waits 30 seconds to allow the SLAM map to solidify and the Nav2 costmaps to initialize.
-3. **Manual Mission Control**: You can control the sequence via terminal:
-   - **Start Now**: `ros2 topic pub -1 /mission/command std_msgs/msg/String "data: start"`
+   *The robot will immediately drive the perimeter of the field, "locking in" the boundaries in SLAM.*
+
+### 🚀 Autonomous Field Mission: "All Crops" Path
+Once exploration is finished (robot returns home), you can start the full crop inspection:
+
+1. **Controls**:
+   - **Full Mission**: `ros2 topic pub -1 /mission/command std_msgs/msg/String "data: start"`
+   - **Remap Perimeter**: `ros2 topic pub -1 /mission/command std_msgs/msg/String "data: explore"`
    - **Skip current waypoint**: `ros2 topic pub -1 /mission/command std_msgs/msg/String "data: skip"`
    - **Reset Mission**: `ros2 topic pub -1 /mission/command std_msgs/msg/String "data: reset"`
 
-### Navigation Tips:
-- **Linear Driving**: The controller is tuned for straight driving (`curvature_feedback_gain: 2.0`) without "random" spinning by disabling unnecessary rotations in the rows.
-- **Auto-Recovery**: If a waypoint is aborted (stuck), the robot will automatically retry after 5 seconds.
+### Navigation Constraints:
+- **Map Enforcement**: The planner is now set to `allow_unknown: false`. The robot will **refuse** to drive into grey (unmapped) areas.
+- **Global Map Stability**: We have enabled a large, fixed-size global costmap (60m x 60m) to prevent "Out of Bounds" crashes while maintaining full field visibility.
 
 ---
 
