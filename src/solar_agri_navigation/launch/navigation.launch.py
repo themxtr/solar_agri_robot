@@ -16,7 +16,7 @@ def generate_launch_description():
     autostart    = LaunchConfiguration('autostart')
 
     return LaunchDescription([
-        DeclareLaunchArgument('use_sim_time', default_value='false'),
+        DeclareLaunchArgument('use_sim_time', default_value='true'),
         DeclareLaunchArgument('autostart',    default_value='true'),
 
         IncludeLaunchDescription(
@@ -27,6 +27,7 @@ def generate_launch_description():
                 'use_sim_time': use_sim_time,
                 'autostart':    autostart,
                 'params_file':  nav2_params,
+                'use_lifecycle_mgr': 'true',
             }.items(),
         ),
     ])
