@@ -91,7 +91,8 @@ def generate_launch_description():
             package='solar_agri_control',
             executable='crop_marker_publisher',
             name='crop_marker_publisher',
-            output='screen'
+            output='screen',
+            parameters=[{'use_sim_time': use_sim_time}]
         ),
 
         # 6.6 Autonomous Field Navigator
@@ -99,7 +100,8 @@ def generate_launch_description():
             package='solar_agri_control',
             executable='field_navigator',
             name='field_navigator',
-            output='screen'
+            output='screen',
+            parameters=[{'use_sim_time': use_sim_time}]
         ),
 
         # 7. RViz visualization (Conditional)
@@ -109,6 +111,7 @@ def generate_launch_description():
             name='rviz2',
             output='screen',
             arguments=['-d', os.path.join(pkg_description, 'config', 'sim_display.rviz')],
+            parameters=[{'use_sim_time': use_sim_time}],
             condition=IfCondition(use_rviz)
         )
     ])
