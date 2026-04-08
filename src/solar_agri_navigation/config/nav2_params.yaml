@@ -30,7 +30,6 @@ controller_server:
       movement_time_allowance: 30.0
 
     general_goal_checker:
-      stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.35
       yaw_goal_tolerance: 0.35
@@ -75,8 +74,8 @@ local_costmap:
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 15.0
-        inflation_radius: 0.20
+        cost_scaling_factor: 10.0
+        inflation_radius: 0.15
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -132,8 +131,8 @@ global_costmap:
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 15.0
-        inflation_radius: 0.20
+        cost_scaling_factor: 10.0
+        inflation_radius: 0.15
       always_send_full_costmap: True
 
 planner_server:

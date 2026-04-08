@@ -157,10 +157,24 @@ If you want to send the robot to a **specific location** that is NOT part of the
 4. Release the mouse. The robot will plan a path through the crops to that exact point.
 
 ### Option B: Using Terminal (Coordinate Precision)
-If you know the exact `(x, y)` coordinates (e.g., `x=5.0, y=1.0`), run this command:
+If you know the exact `(x, y)` coordinates (e.g., `x=5.0, y=0.75`), run this command:
 ```bash
-ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: {header: {frame_id: 'map'}, pose: {position: {x: 5.0, y: 1.0, z: 0.0}, orientation: {w: 1.0}}}}"
+ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: {header: {frame_id: 'map'}, pose: {position: {x: 5.0, y: 0.75, z: 0.0}, orientation: {w: 1.0}}}}"
 ```
+
+> [!TIP]
+> **Field coordinates map**:
+> - Row 1 Center: `y = -3.0`
+> - **Safe Path 1**: `y = -2.25`
+> - Row 2 Center: `y = -1.5`
+> - **Safe Path 2**: `y = -0.75`
+> - Row 3 Center: `y = 0.0`
+> - **Safe Path 3**: `y = 0.75`
+> - Row 4 Center: `y = 1.5`
+> - **Safe Path 4**: `y = 2.25`
+> - Row 5 Center: `y = 3.0`
+>
+> **Troubleshooting ABORTED goals**: If you send a goal like `y=1.0`, it might be too close to a crop (Row 4 is at `y=1.5`). We have reduced the inflation radius to `0.15m` to help, but aim for the **Safe Path** coordinates above for best results!
 
 ---
 
