@@ -20,6 +20,7 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     use_rviz = LaunchConfiguration('use_rviz', default='true')
+    use_gzclient = LaunchConfiguration('use_gzclient', default='true')
 
     robot_description = ParameterValue(
         Command(['xacro ', urdf_file]),
@@ -29,6 +30,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='true'),
         DeclareLaunchArgument('use_rviz', default_value='true', description='Start RViz2 if true'),
+        DeclareLaunchArgument('use_gzclient', default_value='true', description='Start Gazebo Client if true'),
 
         # 1. Start Gazebo Server with the field world
         IncludeLaunchDescription(
@@ -38,11 +40,12 @@ def generate_launch_description():
             launch_arguments={'world': world_file}.items()
         ),
 
-        # 2. Start Gazebo Client
+        # 2. Start Gazebo Client (Conditional)
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')
-            )
+            ),
+            condition=IfCondition(use_gzclient)
         ),
 
         # 3. Robot State Publisher

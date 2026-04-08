@@ -40,6 +40,12 @@ The entire physics engine, robot spawner, SLAM map builder, and Nav2 infrastruct
 ros2 launch solar_agri_bringup simulation.launch.py
 ```
 
+### 🤖 Headless Autonomous Mode (RViz Only)
+To run the full simulation with autonomous navigation but **without** the Gazebo 3D window (showing only RViz), use this new integrated command:
+```bash
+ros2 launch solar_agri_bringup autonomous.launch.py
+```
+
 ### What happens when you run this?
 1. **Gazebo** opens showing a 3D farm field (`field.world`) populated with 5 rows of tall green crops, and the robot spawns at the centre.
 2. **RViz2** opens containing the visualization tools.
