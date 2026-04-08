@@ -125,25 +125,24 @@ Once the SLAM map starts rendering black crop outlines:
    - A red line **(Dijkstra trajectory)** will immediately be calculated.
    - The robot will begin physically driving down the row!
 
-## 📍 1-2-3 Manual Navigation Guide (RViz)
+## 📍 Mastery Guide: Manual Navigation in RViz
 
-If you want to manually direct the robot instead of using the autonomous mission, follow these exact steps to avoid errors:
+If you want to manually direct the robot instead of using the autonomous script, follow these exact steps to ensure stable operation:
 
-### Step 1: Localize (2D Pose Estimate)
-- Look at the top toolbar in RViz.
-- Click **`2D Pose Estimate`**.
-- Click on the map at the robot's current location (near `[0,0]` or where it spawned) and drag in the direction it is facing.
-- *This "wakes up" Nav2 and tells it where the robot is.*
+### Step 1: Initialize (2D Pose Estimate)
+- Click the **`2D Pose Estimate`** button in the top RViz toolbar.
+- Click on the map at the robot's current position and **drag in the direction it faces**.
+- *This is mandatory! Nav2 needs an initial location to activate its planning bridge.*
 
-### Step 2: Set Goal (Nav2 Goal)
+### Step 2: Set Destination (Nav2 Goal)
 - Click the **`Nav2 Goal`** button in the top toolbar.
-- Click anywhere on the map (e.g., inside a crop row) and drag to set the orientation.
-- The robot will plan a red path and begin moving.
+- Click anywhere in the field and drag for orientation.
+- **Dijkstra Calculation**: A red line will appear immediately, and the robot will start driving.
 
 ### Step 3: Troubleshooting "Action Server Not Available"
-- If you see an error saying the action server is not available, it usually means the robot is **Out of Bounds** or looking for a map.
-- **Fix**: Ensure the robot is within the costmap area (the grey square). We have expanded the map to 40x40 meters to give you plenty of room.
-- If the Nav2 panel says **`Localization: inactive`**, repeat Step 1 above.
+- **Why?**: This usually means the robot is outside the map or the system is resetting.
+- **Fix**: We have enabled **Rolling Window** for the costmaps. This means the robot is *always* at the center of a 20x20m area, so you should never see "Out of Bounds" errors again.
+- If RViz becomes unresponsive, simply restart the launch file and repeat Step 1.
 
 ---
 
