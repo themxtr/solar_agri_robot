@@ -125,12 +125,25 @@ Once the SLAM map starts rendering black crop outlines:
    - A red line **(Dijkstra trajectory)** will immediately be calculated.
    - The robot will begin physically driving down the row!
 
-### 🏁 3. Multi-Waypoint Navigation
-If you want to plan a complex route:
-1. Find the **`Navigation 2`** panel (usually at the bottom left).
-2. Select **`Waypoint / Nav Through Poses Mode`** at the bottom of that panel.
-3. Use the **`Nav2 Goal`** button to click several locations in the field.
-4. Click **`Start Navigation`** in the Nav2 panel to begin the mission.
+## 📍 1-2-3 Manual Navigation Guide (RViz)
+
+If you want to manually direct the robot instead of using the autonomous mission, follow these exact steps to avoid errors:
+
+### Step 1: Localize (2D Pose Estimate)
+- Look at the top toolbar in RViz.
+- Click **`2D Pose Estimate`**.
+- Click on the map at the robot's current location (near `[0,0]` or where it spawned) and drag in the direction it is facing.
+- *This "wakes up" Nav2 and tells it where the robot is.*
+
+### Step 2: Set Goal (Nav2 Goal)
+- Click the **`Nav2 Goal`** button in the top toolbar.
+- Click anywhere on the map (e.g., inside a crop row) and drag to set the orientation.
+- The robot will plan a red path and begin moving.
+
+### Step 3: Troubleshooting "Action Server Not Available"
+- If you see an error saying the action server is not available, it usually means the robot is **Out of Bounds** or looking for a map.
+- **Fix**: Ensure the robot is within the costmap area (the grey square). We have expanded the map to 40x40 meters to give you plenty of room.
+- If the Nav2 panel says **`Localization: inactive`**, repeat Step 1 above.
 
 ---
 
